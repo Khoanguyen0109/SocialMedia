@@ -14,3 +14,10 @@ body{
 .nav-container {
   margin: auto;
 }
+.nav-container svg{
+  color: #ffffff;
+  margin-left: 70px;
+}
+a{
+  text-decoration: none;
+}

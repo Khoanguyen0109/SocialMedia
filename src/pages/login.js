@@ -1,44 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
-import { Grid, Typography, TextField, Button } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 import AppIcon from "../images/download.png";
+import { useHistory } from "react-router-dom";
+import cssfile from "./css/login_css";
+import { Link } from "react-router-dom";
+//Redux
+import { loginUser } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
-const useStyles = makeStyles({
-  form: {
-    textAlign: "center",
-  },
-  image: {
-    margin: "20px  auto 20px auto",
-    borderRadius: 50,
-    padding: 20,
-    width: "80px",
-  },
-  title: {
-      
-  },
-
-  textField: {
-    margin: "10px  auto 10px auto",
-    
-  },
-  button:{
-    width: "100px",
-    marginTop: 20
-  },
-});
-
-const handleSubmit = () => {
-    alert("Hi")
-};
+const useStyles = makeStyles(cssfile);
 
 function Login() {
+
+  let history = useHistory();
   const classes = useStyles();
+  /// hook 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errors, setError] = useState({});
-  console.log(email)
+  
+  
+  //redux
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user) /// user reducer 
+  const UI = useSelector(state => state.ui)// ui reducer
+  const loading = UI.loading;
+  // const errorsUI = UI.errors
+  
+  
+  
+  async function setError()  {
+    const errorsUI1 = await UI.errors
+    return errorsUI1;
+  }
+
+  const errorsUI = setError()
+
+  // SetErrors()
+  // },[errors])
+  
+  console.log()
+
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const userData = {
+      email: email,
+      password: password,
+    };
+    dispatch(loginUser(userData, history));
+
+    
+  };
   return (
     <Grid
       container
@@ -60,20 +81,41 @@ function Login() {
             label="Email"
             className={classes.textField}
             value={email}
+            helperText={errorsUI.email ?errorsUI.email:'' }
+            error={errorsUI.email ? true : false}
             onChange={(event) => setEmail(event.target.value)}
             fullWidth
           />
-           <TextField
+          <TextField
             id="password"
             type="password"
             label="Password"
             className={classes.textField}
             value={password}
+            helperText={errorsUI.password? errorsUI.password : ''}
+            error={errorsUI.password ? true : false}
             onChange={(event) => setPassword(event.target.value)}
             fullWidth
           />
-          <Button type="submit" variant="contained" color="primary" className={classes.button} >Go </Button>
+          {errorsUI.general && (
+            <Typography variant="h2" className={classes.Error}>
+              {errorsUI.general }
+            </Typography>
+          )}
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Go{" "}
+            {loading && <CircularProgress color="secondary" className={classes.progress} />}
+          </Button>
         </form>
+
+        <small>
+          Don't have account ?? <Link to="/signup"> Sign up Here </Link>
+        </small>
       </Grid>
       <Grid item />
     </Grid>
@@ -82,6 +124,9 @@ function Login() {
 
 Login.prototype = {
   classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  user : PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
 export default Login;
