@@ -25,6 +25,7 @@ function Login() {
   /// hook 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors,setErrors] = useState('');
   
   
   //redux
@@ -32,21 +33,27 @@ function Login() {
   const user = useSelector(state => state.user) /// user reducer 
   const UI = useSelector(state => state.ui)// ui reducer
   const loading = UI.loading;
-  // const errorsUI = UI.errors
+  // let errorsUI = UI.errors
+  // setErrors(errorsUI)
   
-  
-  
-  async function setError()  {
-    const errorsUI1 = await UI.errors
-    return errorsUI1;
-  }
+  useEffect(()=>{
+    const setError= async() =>  {
+      return setErrors ( await UI.errors)
+      
+    }
+    setError()
+  },
+  )
+   const errorsUI = errors
+  console.log(errors)
 
-  const errorsUI = setError()
-
+ 
+  // console.log(errors)
+  // console.log(errors)
   // SetErrors()
   // },[errors])
   
-  console.log()
+
 
   
   const handleSubmit = (event) => {

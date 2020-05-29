@@ -4,19 +4,22 @@ import axios from 'axios'
 
 import Scream from '../components/Scream.js'
 import Profile from "../components/Profile/Profile.js";
+import { useDispatch, useSelector } from "react-redux";
 function Home() {
     
     const [screams, setScreams] =useState()
-
+    const dispatch = useDispatch()
+    // const user = useSelector(state => state.user)
+    // const data = useSelector(state => state.data)
+    
     useEffect(()=> {
         try {
             const fetchData = async () =>{
                 // const data = await axios.get('https://us-central1-socialmedia-187ef.cloudfunctions.net/api/screams')
                 const data = await axios.get('/screams')
                 setScreams(data.data)
-               
-                
-                
+
+                // return setScreams(await)
              }
 
              fetchData();

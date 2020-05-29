@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {
@@ -21,10 +21,9 @@ function Signup() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
-  
   const [confirmPassword, setConfirmPassword] = useState("");
   const [handle, setHandle] = useState("");
+  const [errors,setErrors] = useState('');
 
   let history = useHistory();
 
@@ -33,12 +32,16 @@ function Signup() {
   const user = useSelector((state) => state.user); /// user reducer
   const UI = useSelector((state) => state.ui); // ui reducer
   const loading = UI.loading;
-  async function setError()  {
-    const errorsUI = await UI.errors
-    return errorsUI;
-  }
+  
 
-  const errors = setError()
+
+
+  useEffect(() => {
+    const setError = async () => {
+      return setErrors(await UI.errors);
+    };
+    setError();
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
