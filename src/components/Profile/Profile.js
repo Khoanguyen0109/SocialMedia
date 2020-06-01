@@ -45,6 +45,8 @@ function Profile() {
     dispatch(logoutUser());
   };
 
+ 
+
   let profileMarkup = !loading ? (
     user.authenticated ? (
       <Paper className={classes.paper}>
@@ -71,7 +73,7 @@ function Profile() {
           <div className="profile-details">
             <MuiLink
               component={Link}
-              to={`/users/${credentials.handle}`}
+              to={`/user/${credentials.handle}`}
               color="primary"
               variant="h5"
             >

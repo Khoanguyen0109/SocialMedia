@@ -5,41 +5,31 @@ import axios from 'axios'
 import Scream from '../components/Scream.js'
 import Profile from "../components/Profile/Profile.js";
 import { useDispatch, useSelector } from "react-redux";
+import { LOADING_DATA, SET_SCREAMS } from "../redux/type.js";
+import { getScreams } from "../redux/actions/dataAction.js";
 function Home() {
     
-    const [screams, setScreams] =useState()
+    const [screams, setScreams] =useState('')
     const dispatch = useDispatch()
-    // const user = useSelector(state => state.user)
-    // const data = useSelector(state => state.data)
-    
-    useEffect(()=> {
-        try {
-            const fetchData = async () =>{
-                // const data = await axios.get('https://us-central1-socialmedia-187ef.cloudfunctions.net/api/screams')
-                const data = await axios.get('/screams')
-                setScreams(data.data)
-
-                // return setScreams(await)
-             }
-
-             fetchData();
-            
-        } catch (error) {
-            console.log(error)
-        }       
-        
-    },[])
    
-
-  
     
+    const user = useSelector(state => state.user)
+    const data = useSelector(state => state.data)
+   
+   
+   
+    useEffect(() => {
+        dispatch(getScreams());
+        setScreams(data.screams)
+      },[screams]);
+
     
     return (
         
         <Grid container spacing={8}>
             <Grid item sm={8} xs={12}>
                 <p>content</p>
-                {screams ?  screams.map((scream)=> <Scream key={scream.screamId } scream={scream}/> ): <p>Loading .. </p>}
+                {data.screams ?  data.screams.map((scream)=> <Scream key={scream.screamId } scream={scream}/> ): <p>Loading .. </p>}
             </Grid>
                 
                 

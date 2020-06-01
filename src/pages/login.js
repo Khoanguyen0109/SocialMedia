@@ -36,16 +36,16 @@ function Login() {
   // let errorsUI = UI.errors
   // setErrors(errorsUI)
   
-  useEffect(()=>{
-    const setError= async() =>  {
-      return setErrors ( await UI.errors)
-      
-    }
-    setError()
-  },
-  )
+    useEffect(()=>{
+      const setError= async() =>  {
+        return setErrors ( await UI.errors)
+        
+      }
+      setError()
+    },
+    )
    const errorsUI = errors
-  console.log(errors)
+
 
  
   // console.log(errors)

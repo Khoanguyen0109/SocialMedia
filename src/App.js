@@ -20,6 +20,7 @@ import store from "./redux/store";
 import { logoutUser, getUserData } from "./redux/actions/userAction";
 import { SET_AUTHENTICATED } from "./redux/type";
 import axios from "axios";
+import User from "./pages/User";
 
 const theme = CreateMuiTheme(themefile);
 
@@ -60,7 +61,8 @@ function App() {
                   path="/signup"
                   component={signup}
                   authenticated ={authenticated}
-                />
+                /> 
+                <Route exact path ="/user/:handle" component={User}/>
               </Switch>
             </div>
           </Router>
